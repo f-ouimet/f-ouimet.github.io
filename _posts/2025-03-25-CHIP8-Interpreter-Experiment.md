@@ -270,27 +270,46 @@ If alarm sounds are enabled, it will emit a hardware (I assume motherboard in mo
 
 ---
 
-### Terminal black magic (my personal hell with inputs)
+### Terminal black magic
 
 At this step, I was really happy with my results (and annoyed by what was left to do). I had to make sure to get an input in the terminal, NOT print the character to the screen and make sure I didn't need to make the user press ENTER everytime a char was input.
 I found out about the `<termios.h>` and `<ncurses.h>` libraries.
 
-#### How are inputs managed? It just works.
+The terminal is set to non-canonical mode and then it gets every character that is input. It then compares it with a direct value using switch case and sets the corresponding case in the input array to 1.
+
+#### How are inputs managed? 
 
 This step was hard to do since there are no official ways of handling inputs. Everyone just seems to be doing it to make it work. I had to read a lot of
 confusing stuff about canonical and non-canonical terminal modes and functions I'd never used. It's pretty janky and at this point I wondered if using SDL would
-be simpler (it would). I was already too engaged in this to give up though.
+be simpler (..it would). I still pushed through.
 
 I chose to map the keyboard the way most interpreters do: keys 1 to 4 horizontally, 1 to z vertically.
 A pressed state would be indicated by a value of 1, not pressed 0.
+With every frame, the states are reset.
+
+chip8 keyboard:
+    1 2 3 C
+    4 5 6 D
+    7 8 9 E
+    A 0 B F
+
+Mapped to our QWERTY keyboard:
+ 1 2 3 4
+  Q W E R
+   A S D F
+    Z X C V
 
 ---
 
 ### The test ROMs
 
-#### Carry and other flag edge cases
+The CHIP-8 Test Suite available [here](https://github.com/Timendus/chip8-test-suite) provides a series of basic functionality tests. Our interpreter passes all the basic functionality tests and the quirks tests. Tetris and other game ROMs are also playable at decent speed.
 
 ---
 
 ### The next step!
+
+Having learned the basic framework for emulator development, I want to try making a C++ 6502 emulator leading to a NES Emulator. There's also the possiblity of a 6510 emulator to eventually simulate the Commodore 64 environment.
+
+### Thanks for reading!
 
